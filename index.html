@@ -19,30 +19,30 @@
     
     <!-- Mobile Touch Controls -->
     <div class="mobile-controls" id="mobileControls">
-      <!-- D-pad for movement -->
-      <div class="dpad-container">
-        <div class="dpad">
-          <div class="dpad-button up-button" id="upButton">
-            <div class="button-icon">▲</div>
-          </div>
-          <div class="dpad-row">
-            <div class="dpad-button left-button" id="leftButton">
-              <div class="button-icon">◀</div>
-            </div>
-            <div class="dpad-center"></div>
-            <div class="dpad-button right-button" id="rightButton">
-              <div class="button-icon">▶</div>
-            </div>
-          </div>
-          <div class="dpad-button down-button" id="downButton">
-            <div class="button-icon">▼</div>
-          </div>
+      <!-- Left side controls: Left + Up -->
+      <div class="left-controls">
+        <div class="control-button direction-button" id="upButton">
+          <div class="button-icon">▲</div>
+          <div class="button-label">UP</div>
         </div>
-        <div class="dpad-label">MOVE</div>
+        <div class="control-button direction-button" id="leftButton">
+          <div class="button-icon">◀</div>
+          <div class="button-label">LEFT</div>
+        </div>
       </div>
       
-      <!-- Shoot button -->
-      <div class="shoot-container">
+      <!-- Right side controls: Right + Down + Shoot -->
+      <div class="right-controls">
+        <div class="movement-cluster">
+          <div class="control-button direction-button" id="rightButton">
+            <div class="button-icon">▶</div>
+            <div class="button-label">RIGHT</div>
+          </div>
+          <div class="control-button direction-button" id="downButton">
+            <div class="button-icon">▼</div>
+            <div class="button-label">DOWN</div>
+          </div>
+        </div>
         <div class="control-button shoot-button" id="shootButton">
           <div class="button-icon">🚀</div>
           <div class="button-label">SHOOT</div>
