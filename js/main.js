@@ -29,6 +29,7 @@ class Game {
     window.audioManager = this.audioManager;
     
     this.setupEventListeners();
+    this.setupOrientationHandling();
     this.showStartScreen();
   }
 
@@ -348,6 +349,70 @@ class Game {
   showStartScreen() {
     document.getElementById('startScreen').classList.remove('hidden');
     document.getElementById('gameOverScreen').classList.add('hidden');
+    this.updateControlsForDevice();
+  }
+
+  updateControlsForDevice() {
+    // Better touch device detection including iPads
+    const isTouchDevice = 'ontouchstart' in window || 
+                         navigator.maxTouchPoints > 0 || 
+                         navigator.msMaxTouchPoints > 0 ||
+                         window.innerWidth <= 768;
+    
+    // Update instruction text based on device
+    const instructionText = document.querySelector('#startScreen p');
+    if (instructionText) {
+      if (isTouchDevice) {
+        instructionText.textContent = 'Use the LEFT and RIGHT buttons to move, SHOOT button to fire!';
+      } else {
+        instructionText.textContent = 'Use WASD or arrow keys to move, SPACE to shoot';
+      }
+    }
+
+    // Show/hide mobile controls based on device
+    const mobileControls = document.getElementById('mobileControls');
+    if (mobileControls) {
+      if (isTouchDevice) {
+        mobileControls.style.display = 'flex';
+      } else {
+        // Let CSS media queries handle this for better device detection
+        mobileControls.style.display = '';
+      }
+    }
+
+    console.log('Touch device detected:', isTouchDevice);
+  }
+
+  setupOrientationHandling() {
+    // Handle orientation changes for mobile devices
+    const handleOrientationChange = () => {
+      setTimeout(() => {
+        this.updateControlsForDevice();
+      }, 100); // Small delay to ensure orientation change is complete
+    };
+
+    // Listen for orientation changes
+    window.addEventListener('orientationchange', handleOrientationChange);
+    window.addEventListener('resize', handleOrientationChange);
+    
+    // iOS specific handling
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+      // Prevent zoom on double tap
+      document.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 1) {
+          e.preventDefault();
+        }
+      });
+      
+      let lastTouchEnd = 0;
+      document.addEventListener('touchend', (e) => {
+        const now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+          e.preventDefault();
+        }
+        lastTouchEnd = now;
+      }, false);
+    }
   }
 
   showGameOverScreen() {

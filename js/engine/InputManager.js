@@ -7,9 +7,17 @@ class InputManager {
     this.touches = new Map();
     this.virtualJoystick = { active: false, startX: 0, startY: 0, currentX: 0, currentY: 0 };
     
+    // Touch button states
+    this.touchButtons = {
+      left: false,
+      right: false,
+      shoot: false
+    };
+    
     this.setupKeyboardEvents();
     this.setupMouseEvents();
     this.setupTouchEvents();
+    this.setupMobileButtons();
   }
 
   setupKeyboardEvents() {
@@ -167,8 +175,12 @@ class InputManager {
     if (this.isKeyDown('ArrowUp') || this.isKeyDown('KeyW')) y -= 1;
     if (this.isKeyDown('ArrowDown') || this.isKeyDown('KeyS')) y += 1;
 
-    // Virtual joystick input
-    if (this.virtualJoystick.active) {
+    // Touch button input
+    if (this.touchButtons.left) x -= 1;
+    if (this.touchButtons.right) x += 1;
+
+    // Virtual joystick input (only if touch buttons aren't being used)
+    if (this.virtualJoystick.active && !this.touchButtons.left && !this.touchButtons.right) {
       const deltaX = this.virtualJoystick.currentX - this.virtualJoystick.startX;
       const deltaY = this.virtualJoystick.currentY - this.virtualJoystick.startY;
       const deadzone = 20;
@@ -189,12 +201,13 @@ class InputManager {
     const spacePressed = this.isKeyDown('Space');
     const mousePressed = this.isMouseDown();
     const touchPressed = this.isTouchHeld();
+    const shootButtonPressed = this.touchButtons.shoot;
     
-    return spacePressed || mousePressed || touchPressed;
+    return spacePressed || mousePressed || touchPressed || shootButtonPressed;
   }
 
   isShootHeld() {
-    return this.isKeyDown('Space') || this.isMouseDown() || this.isTouchHeld();
+    return this.isKeyDown('Space') || this.isMouseDown() || this.isTouchHeld() || this.touchButtons.shoot;
   }
 
   isTouchPressed() {
@@ -217,5 +230,129 @@ class InputManager {
       stickY: this.virtualJoystick.currentY,
       radius: 50
     };
+  }
+
+  setupMobileButtons() {
+    // Get button elements
+    const leftButton = document.getElementById('leftButton');
+    const rightButton = document.getElementById('rightButton');
+    const shootButton = document.getElementById('shootButton');
+
+    if (!leftButton || !rightButton || !shootButton) {
+      console.log('Mobile control buttons not found');
+      return;
+    }
+
+    // Prevent default touch behaviors
+    const preventDefaults = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    };
+
+    // Left button events
+    leftButton.addEventListener('touchstart', (e) => {
+      preventDefaults(e);
+      this.touchButtons.left = true;
+    });
+
+    leftButton.addEventListener('touchend', (e) => {
+      preventDefaults(e);
+      this.touchButtons.left = false;
+    });
+
+    leftButton.addEventListener('touchcancel', (e) => {
+      preventDefaults(e);
+      this.touchButtons.left = false;
+    });
+
+    // Right button events
+    rightButton.addEventListener('touchstart', (e) => {
+      preventDefaults(e);
+      this.touchButtons.right = true;
+    });
+
+    rightButton.addEventListener('touchend', (e) => {
+      preventDefaults(e);
+      this.touchButtons.right = false;
+    });
+
+    rightButton.addEventListener('touchcancel', (e) => {
+      preventDefaults(e);
+      this.touchButtons.right = false;
+    });
+
+    // Shoot button events
+    shootButton.addEventListener('touchstart', (e) => {
+      preventDefaults(e);
+      this.touchButtons.shoot = true;
+    });
+
+    shootButton.addEventListener('touchend', (e) => {
+      preventDefaults(e);
+      this.touchButtons.shoot = false;
+    });
+
+    shootButton.addEventListener('touchcancel', (e) => {
+      preventDefaults(e);
+      this.touchButtons.shoot = false;
+    });
+
+    // Add mouse events for desktop testing
+    leftButton.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      this.touchButtons.left = true;
+    });
+
+    leftButton.addEventListener('mouseup', (e) => {
+      e.preventDefault();
+      this.touchButtons.left = false;
+    });
+
+    leftButton.addEventListener('mouseleave', () => {
+      this.touchButtons.left = false;
+    });
+
+    rightButton.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      this.touchButtons.right = true;
+    });
+
+    rightButton.addEventListener('mouseup', (e) => {
+      e.preventDefault();
+      this.touchButtons.right = false;
+    });
+
+    rightButton.addEventListener('mouseleave', () => {
+      this.touchButtons.right = false;
+    });
+
+    shootButton.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      this.touchButtons.shoot = true;
+    });
+
+    shootButton.addEventListener('mouseup', (e) => {
+      e.preventDefault();
+      this.touchButtons.shoot = false;
+    });
+
+    shootButton.addEventListener('mouseleave', () => {
+      this.touchButtons.shoot = false;
+    });
+
+    // Global touch event cleanup
+    document.addEventListener('touchend', () => {
+      this.touchButtons.left = false;
+      this.touchButtons.right = false;
+      this.touchButtons.shoot = false;
+    });
+
+    document.addEventListener('touchcancel', () => {
+      this.touchButtons.left = false;
+      this.touchButtons.right = false;
+      this.touchButtons.shoot = false;
+    });
+
+    console.log('Mobile button event handlers bound successfully');
   }
 }

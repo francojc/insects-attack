@@ -57,6 +57,145 @@ body {
   display: none;
 }
 
+/* Mobile Touch Controls */
+.mobile-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  height: 120px;
+  pointer-events: none;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.control-button {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(45deg, #4caf50, #66bb6a);
+  border: 3px solid #fff;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.control-button:active {
+  transform: scale(0.95);
+  background: linear-gradient(45deg, #66bb6a, #4caf50);
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.5);
+}
+
+.left-button {
+  align-self: center;
+}
+
+.right-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.right-button {
+  background: linear-gradient(45deg, #2196f3, #42a5f5);
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+}
+
+.right-button:active {
+  background: linear-gradient(45deg, #42a5f5, #2196f3);
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.5);
+}
+
+.shoot-button {
+  background: linear-gradient(45deg, #ff6b35, #f7931e);
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+}
+
+.shoot-button:active {
+  background: linear-gradient(45deg, #f7931e, #ff6b35);
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.5);
+}
+
+.button-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+  color: white;
+}
+
+.button-label {
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: white;
+  margin-top: 4px;
+}
+
+/* Hide mobile controls on non-touch devices only */
+@media (hover: hover) and (pointer: fine) {
+  .mobile-controls {
+    display: none;
+  }
+}
+
+/* Show mobile controls on touch devices (including iPads) */
+@media (hover: none) and (pointer: coarse), 
+       (pointer: coarse),
+       (max-width: 768px),
+       (max-width: 1024px) and (orientation: portrait),
+       (max-height: 1366px) and (orientation: landscape) and (pointer: coarse) {
+  .mobile-controls {
+    display: flex;
+  }
+  
+  /* Adjust button sizes for smaller screens */
+  .control-button {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .button-icon {
+    font-size: 2rem;
+  }
+  
+  .button-label {
+    font-size: 0.6rem;
+  }
+}
+
+/* Larger buttons for tablets */
+@media (min-width: 768px) and (pointer: coarse) {
+  .control-button {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .button-icon {
+    font-size: 3rem;
+  }
+  
+  .button-label {
+    font-size: 0.8rem;
+  }
+}
+
+/* iOS specific optimizations */
+@supports (-webkit-touch-callout: none) {
+  .control-button {
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
 .screen h1 {
   font-size: 36px;
   margin-bottom: 20px;

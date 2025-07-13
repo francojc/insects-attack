@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Insects Attack!</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -13,6 +15,24 @@
       <div id="score">Score: <span id="scoreValue">0</span></div>
       <div id="lives">Lives: <span id="livesValue">3</span></div>
       <div id="level">Level: <span id="levelValue">1</span></div>
+    </div>
+    
+    <!-- Mobile Touch Controls -->
+    <div class="mobile-controls" id="mobileControls">
+      <div class="control-button left-button" id="leftButton">
+        <div class="button-icon">◀</div>
+        <div class="button-label">LEFT</div>
+      </div>
+      <div class="right-controls">
+        <div class="control-button shoot-button" id="shootButton">
+          <div class="button-icon">🚀</div>
+          <div class="button-label">SHOOT</div>
+        </div>
+        <div class="control-button right-button" id="rightButton">
+          <div class="button-icon">▶</div>
+          <div class="button-label">RIGHT</div>
+        </div>
+      </div>
     </div>
     <div id="gameOverScreen" class="screen hidden">
       <h2>Game Over</h2>
