@@ -56,7 +56,6 @@ class Player {
 
     // Handle shooting
     if (inputManager.isShootPressed()) {
-      console.log('Shoot pressed, canShoot:', this.canShoot());
       if (this.canShoot()) {
         this.shoot();
       }

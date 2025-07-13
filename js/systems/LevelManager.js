@@ -74,23 +74,8 @@ class LevelManager {
       return;
     }
     
-    // Check if player was killed by centipede reaching player area
-    // Only check if player is alive and not invulnerable to prevent death loops
-    if (centipedeManager.hasReachedPlayerArea() && player.alive && !player.invulnerable) {
-      player.takeDamage();
-      const gameOver = scoringSystem.loseLife();
-      
-      if (gameOver) {
-        this.gameOver();
-      } else {
-        // Respawn player after a brief delay
-        setTimeout(() => {
-          if (!scoringSystem.isGameOver()) {
-            player.respawn(this.gameWidth / 2, this.gameHeight - 50);
-          }
-        }, 1000);
-      }
-    }
+    // Player death from centipede reaching bottom is now handled by collision system
+    // This prevents the death loop issue
   }
 
   updateLevelComplete(deltaTime, scoringSystem) {

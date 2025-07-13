@@ -223,12 +223,16 @@ class Game {
       case 'player-centipede':
       case 'player-enemy':
         if (this.player.takeDamage()) {
-          const livesLost = this.scoringSystem.loseLife();
+          const gameOver = this.scoringSystem.loseLife();
           
-          if (!livesLost) {
+          if (gameOver) {
+            // Game over - handled by main update loop
+          } else {
             // Respawn player after brief delay
             setTimeout(() => {
-              this.player.respawn(this.gameWidth / 2, this.gameHeight - 50);
+              if (!this.scoringSystem.isGameOver()) {
+                this.player.respawn(this.gameWidth / 2, this.gameHeight - 50);
+              }
             }, 1000);
           }
         }

@@ -15,7 +15,6 @@ class InputManager {
   setupKeyboardEvents() {
     window.addEventListener('keydown', (e) => {
       this.keys[e.code] = true;
-      console.log('Key pressed:', e.code); // Debug output
       
       // Prevent default for game keys
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'KeyW', 'KeyA', 'KeyS', 'KeyD', 'Space'].includes(e.code)) {
@@ -190,10 +189,6 @@ class InputManager {
     const spacePressed = this.isKeyDown('Space');
     const mousePressed = this.isMouseDown();
     const touchPressed = this.isTouchHeld();
-    
-    if (spacePressed || mousePressed || touchPressed) {
-      console.log('Input detected - Space:', spacePressed, 'Mouse:', mousePressed, 'Touch:', touchPressed);
-    }
     
     return spacePressed || mousePressed || touchPressed;
   }
