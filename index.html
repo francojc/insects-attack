@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insects Attack!</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div id="gameContainer">
+    <canvas id="gameCanvas"></canvas>
+    <div id="gameUI">
+      <div id="score">Score: <span id="scoreValue">0</span></div>
+      <div id="lives">Lives: <span id="livesValue">3</span></div>
+      <div id="level">Level: <span id="levelValue">1</span></div>
+    </div>
+    <div id="gameOverScreen" class="screen hidden">
+      <h2>Game Over</h2>
+      <p>Final Score: <span id="finalScore">0</span></p>
+      <button id="restartBtn">Play Again</button>
+    </div>
+    <div id="startScreen" class="screen">
+      <h1>Insects Attack!</h1>
+      <p>Use WASD or arrow keys to move, SPACE to shoot</p>
+      <button id="startBtn">Start Game</button>
+    </div>
+  </div>
+
+  <!-- Engine Scripts -->
+  <script src="js/engine/GameLoop.js"></script>
+  <script src="js/engine/Renderer.js"></script>
+  <script src="js/engine/InputManager.js"></script>
+  <script src="js/engine/AudioManager.js"></script>
+  
+  <!-- Entity Scripts -->
+  <script src="js/entities/Player.js"></script>
+  <script src="js/entities/Centipede.js"></script>
+  <script src="js/entities/Enemies.js"></script>
+  <script src="js/entities/Mushroom.js"></script>
+  
+  <!-- System Scripts -->
+  <script src="js/systems/CollisionSystem.js"></script>
+  <script src="js/systems/ScoringSystem.js"></script>
+  <script src="js/systems/LevelManager.js"></script>
+  
+  <!-- Main Game Script -->
+  <script src="js/main.js"></script>
+</body>
+</html>
