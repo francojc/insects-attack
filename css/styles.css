@@ -63,12 +63,13 @@ body {
   bottom: 20px;
   left: 20px;
   right: 20px;
-  height: 120px;
+  height: 140px;
   pointer-events: none;
   z-index: 5;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  padding: 0 10px;
 }
 
 .control-button {
@@ -86,8 +87,9 @@ body {
   -webkit-user-select: none;
   touch-action: manipulation;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+  position: relative;
 }
 
 .control-button:active {
@@ -97,7 +99,8 @@ body {
 }
 
 .left-button {
-  align-self: center;
+  align-self: flex-end;
+  margin-bottom: 20px;
 }
 
 .right-controls {
@@ -105,6 +108,7 @@ body {
   flex-direction: column;
   gap: 15px;
   align-items: center;
+  margin-bottom: 10px;
 }
 
 .right-button {
@@ -155,25 +159,40 @@ body {
        (max-height: 1366px) and (orientation: landscape) and (pointer: coarse) {
   .mobile-controls {
     display: flex;
+    bottom: 30px;
+    height: 160px;
   }
   
   /* Adjust button sizes for smaller screens */
   .control-button {
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
   }
   
   .button-icon {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
   
   .button-label {
-    font-size: 0.6rem;
+    font-size: 0.7rem;
+  }
+  
+  .left-button {
+    margin-bottom: 30px;
+  }
+  
+  .right-controls {
+    margin-bottom: 20px;
   }
 }
 
 /* Larger buttons for tablets */
 @media (min-width: 768px) and (pointer: coarse) {
+  .mobile-controls {
+    bottom: 40px;
+    height: 180px;
+  }
+  
   .control-button {
     width: 120px;
     height: 120px;
@@ -185,6 +204,15 @@ body {
   
   .button-label {
     font-size: 0.8rem;
+  }
+  
+  .left-button {
+    margin-bottom: 40px;
+  }
+  
+  .right-controls {
+    margin-bottom: 30px;
+    gap: 20px;
   }
 }
 

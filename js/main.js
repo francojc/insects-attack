@@ -369,18 +369,21 @@ class Game {
       }
     }
 
-    // Show/hide mobile controls based on device
+    // Force show mobile controls on touch devices
     const mobileControls = document.getElementById('mobileControls');
     if (mobileControls) {
       if (isTouchDevice) {
         mobileControls.style.display = 'flex';
+        mobileControls.style.visibility = 'visible';
       } else {
         // Let CSS media queries handle this for better device detection
         mobileControls.style.display = '';
+        mobileControls.style.visibility = '';
       }
     }
 
     console.log('Touch device detected:', isTouchDevice);
+    console.log('Mobile controls element:', mobileControls);
   }
 
   setupOrientationHandling() {

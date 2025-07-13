@@ -233,15 +233,20 @@ class InputManager {
   }
 
   setupMobileButtons() {
-    // Get button elements
-    const leftButton = document.getElementById('leftButton');
-    const rightButton = document.getElementById('rightButton');
-    const shootButton = document.getElementById('shootButton');
+    // Wait for DOM to be ready
+    const initButtons = () => {
+      // Get button elements
+      const leftButton = document.getElementById('leftButton');
+      const rightButton = document.getElementById('rightButton');
+      const shootButton = document.getElementById('shootButton');
 
-    if (!leftButton || !rightButton || !shootButton) {
-      console.log('Mobile control buttons not found');
-      return;
-    }
+      if (!leftButton || !rightButton || !shootButton) {
+        console.log('Mobile control buttons not found, retrying in 100ms...');
+        setTimeout(initButtons, 100);
+        return;
+      }
+
+      console.log('Mobile control buttons found, setting up events...');
 
     // Prevent default touch behaviors
     const preventDefaults = (e) => {
@@ -353,6 +358,14 @@ class InputManager {
       this.touchButtons.shoot = false;
     });
 
-    console.log('Mobile button event handlers bound successfully');
+      console.log('Mobile button event handlers bound successfully');
+    };
+
+    // Start initialization
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initButtons);
+    } else {
+      initButtons();
+    }
   }
 }
