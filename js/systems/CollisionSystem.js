@@ -92,7 +92,7 @@ class CollisionSystem {
     }
 
     // Check player vs centipede segments
-    if (entities.player && entities.player.alive && entities.centipedes) {
+    if (entities.player && entities.player.alive && !entities.player.invulnerable && entities.centipedes) {
       const playerBounds = entities.player.getBounds();
       
       for (const centipede of entities.centipedes) {
@@ -106,14 +106,14 @@ class CollisionSystem {
               centipede: centipede,
               segment: segment
             });
-            break; // Only need to detect one collision per centipede
+            return results; // Exit immediately after first collision to prevent multiple deaths
           }
         }
       }
     }
 
     // Check player vs enemies
-    if (entities.player && entities.player.alive && entities.enemies) {
+    if (entities.player && entities.player.alive && !entities.player.invulnerable && entities.enemies) {
       const playerBounds = entities.player.getBounds();
       
       for (const enemy of entities.enemies) {
@@ -125,6 +125,7 @@ class CollisionSystem {
             player: entities.player,
             enemy: enemy
           });
+          return results; // Exit immediately after first collision
         }
       }
     }
