@@ -19,18 +19,33 @@
     
     <!-- Mobile Touch Controls -->
     <div class="mobile-controls" id="mobileControls">
-      <div class="control-button left-button" id="leftButton">
-        <div class="button-icon">◀</div>
-        <div class="button-label">LEFT</div>
+      <!-- D-pad for movement -->
+      <div class="dpad-container">
+        <div class="dpad">
+          <div class="dpad-button up-button" id="upButton">
+            <div class="button-icon">▲</div>
+          </div>
+          <div class="dpad-row">
+            <div class="dpad-button left-button" id="leftButton">
+              <div class="button-icon">◀</div>
+            </div>
+            <div class="dpad-center"></div>
+            <div class="dpad-button right-button" id="rightButton">
+              <div class="button-icon">▶</div>
+            </div>
+          </div>
+          <div class="dpad-button down-button" id="downButton">
+            <div class="button-icon">▼</div>
+          </div>
+        </div>
+        <div class="dpad-label">MOVE</div>
       </div>
-      <div class="right-controls">
+      
+      <!-- Shoot button -->
+      <div class="shoot-container">
         <div class="control-button shoot-button" id="shootButton">
           <div class="button-icon">🚀</div>
           <div class="button-label">SHOOT</div>
-        </div>
-        <div class="control-button right-button" id="rightButton">
-          <div class="button-icon">▶</div>
-          <div class="button-label">RIGHT</div>
         </div>
       </div>
     </div>

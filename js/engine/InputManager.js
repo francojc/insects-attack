@@ -9,6 +9,8 @@ class InputManager {
     
     // Touch button states
     this.touchButtons = {
+      up: false,
+      down: false,
       left: false,
       right: false,
       shoot: false
@@ -178,9 +180,13 @@ class InputManager {
     // Touch button input
     if (this.touchButtons.left) x -= 1;
     if (this.touchButtons.right) x += 1;
+    if (this.touchButtons.up) y -= 1;
+    if (this.touchButtons.down) y += 1;
 
     // Virtual joystick input (only if touch buttons aren't being used)
-    if (this.virtualJoystick.active && !this.touchButtons.left && !this.touchButtons.right) {
+    const anyButtonPressed = this.touchButtons.up || this.touchButtons.down || 
+                             this.touchButtons.left || this.touchButtons.right;
+    if (this.virtualJoystick.active && !anyButtonPressed) {
       const deltaX = this.virtualJoystick.currentX - this.virtualJoystick.startX;
       const deltaY = this.virtualJoystick.currentY - this.virtualJoystick.startY;
       const deadzone = 20;
@@ -236,11 +242,13 @@ class InputManager {
     // Wait for DOM to be ready
     const initButtons = () => {
       // Get button elements
+      const upButton = document.getElementById('upButton');
+      const downButton = document.getElementById('downButton');
       const leftButton = document.getElementById('leftButton');
       const rightButton = document.getElementById('rightButton');
       const shootButton = document.getElementById('shootButton');
 
-      if (!leftButton || !rightButton || !shootButton) {
+      if (!upButton || !downButton || !leftButton || !rightButton || !shootButton) {
         console.log('Mobile control buttons not found, retrying in 100ms...');
         setTimeout(initButtons, 100);
         return;
@@ -253,6 +261,38 @@ class InputManager {
       e.preventDefault();
       e.stopPropagation();
     };
+
+    // Up button events
+    upButton.addEventListener('touchstart', (e) => {
+      preventDefaults(e);
+      this.touchButtons.up = true;
+    });
+
+    upButton.addEventListener('touchend', (e) => {
+      preventDefaults(e);
+      this.touchButtons.up = false;
+    });
+
+    upButton.addEventListener('touchcancel', (e) => {
+      preventDefaults(e);
+      this.touchButtons.up = false;
+    });
+
+    // Down button events
+    downButton.addEventListener('touchstart', (e) => {
+      preventDefaults(e);
+      this.touchButtons.down = true;
+    });
+
+    downButton.addEventListener('touchend', (e) => {
+      preventDefaults(e);
+      this.touchButtons.down = false;
+    });
+
+    downButton.addEventListener('touchcancel', (e) => {
+      preventDefaults(e);
+      this.touchButtons.down = false;
+    });
 
     // Left button events
     leftButton.addEventListener('touchstart', (e) => {
@@ -303,6 +343,34 @@ class InputManager {
     });
 
     // Add mouse events for desktop testing
+    upButton.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      this.touchButtons.up = true;
+    });
+
+    upButton.addEventListener('mouseup', (e) => {
+      e.preventDefault();
+      this.touchButtons.up = false;
+    });
+
+    upButton.addEventListener('mouseleave', () => {
+      this.touchButtons.up = false;
+    });
+
+    downButton.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      this.touchButtons.down = true;
+    });
+
+    downButton.addEventListener('mouseup', (e) => {
+      e.preventDefault();
+      this.touchButtons.down = false;
+    });
+
+    downButton.addEventListener('mouseleave', () => {
+      this.touchButtons.down = false;
+    });
+
     leftButton.addEventListener('mousedown', (e) => {
       e.preventDefault();
       this.touchButtons.left = true;
@@ -347,12 +415,16 @@ class InputManager {
 
     // Global touch event cleanup
     document.addEventListener('touchend', () => {
+      this.touchButtons.up = false;
+      this.touchButtons.down = false;
       this.touchButtons.left = false;
       this.touchButtons.right = false;
       this.touchButtons.shoot = false;
     });
 
     document.addEventListener('touchcancel', () => {
+      this.touchButtons.up = false;
+      this.touchButtons.down = false;
       this.touchButtons.left = false;
       this.touchButtons.right = false;
       this.touchButtons.shoot = false;

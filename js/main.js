@@ -363,7 +363,7 @@ class Game {
     const instructionText = document.querySelector('#startScreen p');
     if (instructionText) {
       if (isTouchDevice) {
-        instructionText.textContent = 'Use the LEFT and RIGHT buttons to move, SHOOT button to fire!';
+        instructionText.textContent = 'Use the D-PAD to move in all directions, SHOOT button to fire!';
       } else {
         instructionText.textContent = 'Use WASD or arrow keys to move, SPACE to shoot';
       }
