@@ -99,6 +99,9 @@ class Game {
       this.scoringSystem
     );
     
+    // Set initial level theme
+    this.renderer.setLevel(1);
+    
     // Start game loop
     this.gameLoop.start(
       (deltaTime) => this.update(deltaTime),
@@ -143,6 +146,8 @@ class Game {
         this.enemyManager,
         this.scoringSystem
       );
+      // Update renderer with new level theme
+      this.renderer.setLevel(this.levelManager.getCurrentLevel());
       this.levelManager.levelStarted();
     }
     

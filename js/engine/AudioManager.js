@@ -43,6 +43,7 @@ class AudioManager {
     this.sounds.set('playerHit', this.createPlayerHitSound());
     this.sounds.set('levelComplete', this.createLevelCompleteSound());
     this.sounds.set('gameOver', this.createGameOverSound());
+    this.sounds.set('spiderBounce', this.createSpiderBounceSound());
   }
 
   createShootSound() {
@@ -180,6 +181,37 @@ class AudioManager {
         oscillator.start(this.audioContext.currentTime + index * 0.2);
         oscillator.stop(this.audioContext.currentTime + index * 0.2 + 0.4);
       });
+    };
+  }
+
+  createSpiderBounceSound() {
+    return () => {
+      if (!this.enabled || !this.audioContext) return;
+
+      const oscillator = this.audioContext.createOscillator();
+      const gainNode = this.audioContext.createGain();
+      const filter = this.audioContext.createBiquadFilter();
+
+      oscillator.connect(filter);
+      filter.connect(gainNode);
+      gainNode.connect(this.audioContext.destination);
+
+      // Create a quick chittering/clicking sound like a spider
+      oscillator.type = 'square';
+      filter.type = 'highpass';
+      filter.frequency.setValueAtTime(400, this.audioContext.currentTime);
+
+      // Quick frequency bounce for spider-like sound
+      oscillator.frequency.setValueAtTime(600, this.audioContext.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(800, this.audioContext.currentTime + 0.05);
+      oscillator.frequency.exponentialRampToValueAtTime(500, this.audioContext.currentTime + 0.1);
+
+      // Short, quiet sound so it doesn't become annoying
+      gainNode.gain.setValueAtTime(this.masterVolume * 0.15, this.audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.1);
+
+      oscillator.start();
+      oscillator.stop(this.audioContext.currentTime + 0.1);
     };
   }
 

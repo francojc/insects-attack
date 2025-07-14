@@ -24,7 +24,6 @@ body {
 
 #gameCanvas {
   border: 2px solid #fff;
-  background: #001100;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;

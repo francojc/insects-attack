@@ -58,6 +58,7 @@ class Spider extends Enemy {
     this.gameHeight = 600;
     this.minY = 300; // Stay in lower 2/3 of screen
     this.maxY = 550;
+    this.hasPlayedInitialSound = false; // Track if initial sound has been played
     
     this.setRandomTarget();
   }
@@ -66,6 +67,12 @@ class Spider extends Enemy {
     // Choose a random point in the spider's movement area
     this.targetX = Math.random() * this.gameWidth;
     this.targetY = this.minY + Math.random() * (this.maxY - this.minY);
+    
+    // Play spider bounce sound when changing direction (but not on initial spawn)
+    if (this.hasPlayedInitialSound && window.audioManager) {
+      window.audioManager.playSound('spiderBounce');
+    }
+    this.hasPlayedInitialSound = true;
   }
 
   update(deltaTime) {
